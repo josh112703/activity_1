@@ -97,7 +97,6 @@ class SignUpPage extends StatelessWidget {
           password: password,
         );
 
-        // Navigate to the dashboard after successful sign-up
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const DashboardPage()),

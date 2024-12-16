@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'button.dart';
 import 'textfield.dart';
 import 'dashboard.dart';
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  void _handleLogin(BuildContext context) {
+  Future<void> _handleLogin(BuildContext context) async {
     final email = emailController.text.trim();
     final password = passwordController.text;
 
@@ -81,10 +82,20 @@ class LoginPage extends StatelessWidget {
     } else if (password.isEmpty || password.length < 6) {
       _showMessage(context, 'Password must be at least 6 characters');
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const DashboardPage()),
-      );
+      try {
+        final auth = FirebaseAuth.instance;
+        await auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const DashboardPage()),
+        );
+      } catch (e) {
+        _showMessage(context, 'Login failed: ${e.toString()}');
+      }
     }
   }
 
