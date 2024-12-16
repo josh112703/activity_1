@@ -1,6 +1,6 @@
 import 'button.dart';
 import 'textfield.dart';
-import 'dashboard.dart';
+import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -99,7 +99,7 @@ class SignUpPage extends StatelessWidget {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const DashboardPage()),
+          MaterialPageRoute(builder: (_) => const LoginPage()),
         );
       } catch (e) {
         _showMessage(context, 'Failed to sign up: ${e.toString()}');
