@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974905887063",
+    "project_id": "parot-977fa",
+    "storage_bucket": "parot-977fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974905887063:android:c0c4e3a5e98e08ee0fd612",
+        "android_client_info": {
+          "package_name": "com.example.activity_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVJyHPEccM9OJ132iRPDOsePRLeEZuVJw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

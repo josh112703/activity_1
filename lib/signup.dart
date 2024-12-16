@@ -1,6 +1,7 @@
 import 'button.dart';
 import 'textfield.dart';
 import 'dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 final firstnameController = TextEditingController();
@@ -74,7 +75,7 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  void _handleSignUp(BuildContext context) {
+  Future<void> _handleSignUp(BuildContext context) async {
     final firstname = firstnameController.text.trim();
     final lastname = lastnameController.text.trim();
     final email = emailController.text.trim();
@@ -89,10 +90,21 @@ class SignUpPage extends StatelessWidget {
     } else if (password.isEmpty || password.length < 9) {
       _showMessage(context, 'Password must be at least 9 characters');
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const DashboardPage()),
-      );
+      try {
+        final auth = FirebaseAuth.instance;
+        await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+
+        // Navigate to the dashboard after successful sign-up
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const DashboardPage()),
+        );
+      } catch (e) {
+        _showMessage(context, 'Failed to sign up: ${e.toString()}');
+      }
     }
   }
 
