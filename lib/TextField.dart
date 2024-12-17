@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For date formatting
 
 enum TextFieldVariant {
   normal,
@@ -6,7 +7,8 @@ enum TextFieldVariant {
   password,
   email,
   confirmPassword,
-  birthday
+  birthday,
+  datePicker, // New datePicker variant
 }
 
 class CustomTextField extends StatelessWidget {
@@ -17,6 +19,7 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final IconButton? suffixIcon;
   final AutovalidateMode autovalidateMode;
+  final VoidCallback? onTap; // Added onTap callback for datePicker
 
   const CustomTextField({
     super.key,
@@ -27,6 +30,7 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.suffixIcon,
     this.autovalidateMode = AutovalidateMode.disabled,
+    this.onTap, // Accepting onTap callback for datePicker
   });
 
   @override
@@ -124,8 +128,28 @@ class CustomTextField extends StatelessWidget {
           ),
         );
         break;
+      case TextFieldVariant.datePicker: // Handle the datePicker variant
+        textFormFieldVariant = TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.datetime,
+          readOnly: true, // Prevent keyboard from showing
+          validator: validator,
+          autovalidateMode: autovalidateMode,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            suffixIcon: suffixIcon,
+          ),
+        );
+        break;
     }
 
-    return textFormFieldVariant;
+    // Wrapping the TextFormField with GestureDetector to handle onTap for datePicker
+    return GestureDetector(
+      onTap: onTap, // Trigger the onTap callback for date picker
+      child: textFormFieldVariant,
+    );
   }
 }

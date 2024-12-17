@@ -20,6 +20,7 @@ class _ForecastPageState extends State<ForecastPage> {
 
   // Function to open the date picker
   Future<void> _selectDate(BuildContext context) async {
+    // Show Date Picker
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -27,11 +28,13 @@ class _ForecastPageState extends State<ForecastPage> {
       lastDate: DateTime(2101),
     );
     if (picked != null) {
+      // Show Time Picker after Date Picker
       final TimeOfDay? pickedTime = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),
       );
       if (pickedTime != null) {
+        // Combine the selected Date and Time
         final DateTime selectedDateTime = DateTime(
           picked.year,
           picked.month,
@@ -39,6 +42,7 @@ class _ForecastPageState extends State<ForecastPage> {
           pickedTime.hour,
           pickedTime.minute,
         );
+        // Update the TextController with the selected Date and Time
         _dateController.text =
             DateFormat('yyyy-MM-dd HH:mm').format(selectedDateTime);
       }
@@ -98,6 +102,8 @@ class _ForecastPageState extends State<ForecastPage> {
                   }
                   return null;
                 },
+                variant:
+                    TextFieldVariant.datePicker, // Use the datePicker variant
                 onTap: () => _selectDate(context), // Open Date and Time Picker
               ),
               const SizedBox(height: 20),
@@ -142,11 +148,10 @@ class _ForecastPageState extends State<ForecastPage> {
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 1, // Assuming this is the "Add" tab
         onTap: (index) {
-          if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ForecastPage()),
-            );
+          if (index == 0) {
+            Navigator.pushReplacementNamed(context, '/forecast');
+          } else if (index == 2) {
+            Navigator.pushReplacementNamed(context, '/settings');
           }
         },
       ),

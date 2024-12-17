@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'navbar.dart';
 import 'appbar.dart';
 import 'login.dart';
+import 'forecast.dart'; // Import the CommentPage
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -17,6 +18,17 @@ class _DashboardPageState extends State<DashboardPage> {
     setState(() {
       _currentIndex = index;
     });
+
+    // Navigate to the CommentPage when the "Add" button is tapped
+    if (index == 1) {
+      // Assuming "Add" is the second tab (index 1)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                const ForecastPage()), // Navigate to the comment page
+      );
+    }
   }
 
   void _logout(BuildContext context) {
