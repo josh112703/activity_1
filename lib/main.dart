@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: FirebaseOptions(
+      options: const FirebaseOptions(
           apiKey: "AIzaSyDVHWIhgp7fupdEIxqs2RcrcWsbWNU8OaE",
           authDomain: "parot-977fa.firebaseapp.com",
           projectId: "parot-977fa",
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Login Page',
       theme: ThemeData(
         colorScheme:
-            ColorScheme.fromSeed(seedColor: Color.fromRGBO(240, 255, 173, 1)),
+            ColorScheme.fromSeed(seedColor: const Color.fromRGBO(240, 255, 173, 1)),
         useMaterial3: true,
       ),
       home: const LoginPage(),

@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dashboard.dart';
 import 'button.dart';
 import 'textfield.dart';
+import 'dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 final firstnameController = TextEditingController();
 final lastnameController = TextEditingController();
@@ -113,7 +116,7 @@ class SignUpPage extends StatelessWidget {
         // Navigate to the Dashboard after successful sign-up
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const DashboardPage()),
+          MaterialPageRoute(builder: (_) => const LoginPage()),
         );
       } catch (e) {
         // Show error message if sign-up or Firestore save fails

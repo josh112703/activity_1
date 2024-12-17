@@ -24,7 +24,7 @@ class CustomButton extends StatelessWidget {
       case ButtonVariant.primary:
         buttonStyle = ElevatedButton.styleFrom(
           backgroundColor:
-              isDisabled ? Colors.grey : Color.fromARGB(255, 94, 117, 45),
+              isDisabled ? Colors.grey : const Color.fromARGB(255, 94, 117, 45),
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
           shape: RoundedRectangleBorder(
@@ -45,11 +45,11 @@ class CustomButton extends StatelessWidget {
       case ButtonVariant.outlined:
         buttonStyle = OutlinedButton.styleFrom(
           side: BorderSide(
-            color: isDisabled ? Colors.grey : Color.fromARGB(255, 94, 117, 45),
+            color: isDisabled ? Colors.grey : const Color.fromARGB(255, 94, 117, 45),
             width: 2,
           ),
           foregroundColor:
-              isDisabled ? Colors.grey : Color.fromARGB(255, 94, 117, 45),
+              isDisabled ? Colors.grey : const Color.fromARGB(255, 94, 117, 45),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
