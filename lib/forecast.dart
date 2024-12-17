@@ -115,15 +115,15 @@ class _ForecastPageState extends State<ForecastPage> {
         ),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 1, // Assuming this is the "Add" tab
+        currentIndex: 1, // Add Page
         onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacementNamed(context, '/forecast');
-          } else if (index == 2) {
-            Navigator.pushReplacementNamed(context, '/settings');
-          }
-        },
-      ),
+         // Use Navigator.pop to return to the parent navigation logic
+          if (index != 1) {
+           Navigator.pop(context); // This ensures we go back to the parent
+    }
+  },
+),
+
     );
   }
 }
