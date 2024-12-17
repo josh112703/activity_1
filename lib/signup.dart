@@ -7,6 +7,7 @@ import 'textfield.dart';
 import 'dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 final firstnameController = TextEditingController();
 final lastnameController = TextEditingController();
