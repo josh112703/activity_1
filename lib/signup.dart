@@ -116,12 +116,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 16),
                 CustomTextField(
-                  hintText: 'Enter Age',
-                  controller: ageController,
-                  variant: TextFieldVariant.number,
-                ),
-                const SizedBox(height: 16),
-                CustomTextField(
                   hintText: 'Enter Birthday',
                   controller: birthdayController,
                   variant: TextFieldVariant.birthday,
@@ -129,6 +123,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     icon: const Icon(Icons.calendar_today),
                     onPressed: _selectDate,
                   ),
+                ),
+                const SizedBox(height: 16),
+                CustomTextField(
+                  hintText: 'Enter Age',
+                  controller: ageController,
+                  variant: TextFieldVariant.number,
                 ),
                 const SizedBox(height: 16),
                 CustomButton(
@@ -164,19 +164,35 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Future<void> _selectDate() async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
+  DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(1900),
+    lastDate: DateTime.now(),
+  );
 
-    if (pickedDate != null) {
-      setState(() {
-        birthdayController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
-    }
+  if (pickedDate != null) {
+    setState(() {
+      birthdayController.text = "${pickedDate.toLocal()}".split(' ')[0];
+      _calculateAndSetAge(pickedDate); // Call age calculation
+    });
   }
+}
+
+// Helper function to calculate and set age
+void _calculateAndSetAge(DateTime birthDate) {
+  DateTime today = DateTime.now();
+  int age = today.year - birthDate.year;
+
+  // Adjust age if the birthday has not occurred yet this year
+  if (birthDate.month > today.month ||
+      (birthDate.month == today.month && birthDate.day > today.day)) {
+    age--;
+  }
+
+  ageController.text = age.toString();
+}
+
 
   Future<void> _handleSignUp(BuildContext context) async {
     final email = emailController.text.trim();
