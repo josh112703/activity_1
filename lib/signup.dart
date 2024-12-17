@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dashboard.dart';
 import 'button.dart';
 import 'textfield.dart';
-import 'dashboard.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
 final firstnameController = TextEditingController();
 final lastnameController = TextEditingController();
@@ -91,18 +92,32 @@ class SignUpPage extends StatelessWidget {
       _showMessage(context, 'Password must be at least 9 characters');
     } else {
       try {
+        // Firebase Authentication sign-up
         final auth = FirebaseAuth.instance;
-        await auth.createUserWithEmailAndPassword(
+        final userCredential = await auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
 
+        // Save user details to Firestore
+        final user = userCredential.user;
+        if (user != null) {
+          final firestore = FirebaseFirestore.instance;
+          await firestore.collection('users').doc(user.uid).set({
+            'firstName': firstname,
+            'lastName': lastname,
+            'email': email,
+          });
+        }
+
+        // Navigate to the Dashboard after successful sign-up
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const DashboardPage()),
         );
       } catch (e) {
-        _showMessage(context, 'Failed to sign up: ${e.toString()}');
+        // Show error message if sign-up or Firestore save fails
+        _showMessage(context, 'Sign up failed: ${e.toString()}');
       }
     }
   }
