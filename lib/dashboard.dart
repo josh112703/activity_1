@@ -1,8 +1,11 @@
+import 'package:activity_1/history.dart';
 import 'package:flutter/material.dart';
 import 'navbar.dart';
 import 'appbar.dart';
 import 'login.dart';
 import 'forecast.dart'; // Import the CommentPage
+import 'history.dart';
+import 'user.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -27,6 +30,24 @@ class _DashboardPageState extends State<DashboardPage> {
         MaterialPageRoute(
             builder: (context) =>
                 const ForecastPage()), // Navigate to the comment page
+      );
+    }
+    if (index == 2) {
+      // Assuming "Add" is the second tab (index 1)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                const HistoryPage()), // Navigate to the comment page
+      );
+    }
+    if (index == 3) {
+      // Assuming "Add" is the second tab (index 1)
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                const UserPage()), // Navigate to the comment page
       );
     }
   }
