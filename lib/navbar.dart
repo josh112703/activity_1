@@ -33,7 +33,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           label: 'Profile',
         ),
       ],
-      selectedItemColor: Colors.blue,
+      selectedItemColor: Color.fromARGB(255, 61, 83, 30),
       unselectedItemColor: Colors.grey,
     );
   }

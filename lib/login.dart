@@ -8,8 +8,15 @@ import 'signup.dart';
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool _showPassword = false; // To control the visibility of password
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,14 @@ class LoginPage extends StatelessWidget {
                 hintText: 'Enter Password',
                 controller: passwordController,
                 variant: TextFieldVariant.password,
+                obscureText: !_showPassword, // Control password visibility
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _showPassword ? Icons.visibility : Icons.visibility_off,
+                  ),
+                  onPressed:
+                      _togglePasswordVisibility, // Toggle password visibility
+                ),
               ),
               const SizedBox(height: 16),
               CustomButton(
@@ -71,6 +86,13 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Toggle the password visibility
+  void _togglePasswordVisibility() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
   }
 
   Future<void> _handleLogin(BuildContext context) async {
