@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'button.dart';
 import 'textfield.dart';
 
@@ -180,6 +182,22 @@ class _SignUpPageState extends State<SignUpPage> {
     final email = emailController.text.trim();
     final password = passwordController.text;
     final confirmPassword = confirmPasswordController.text;
+    final firstName = firstNameController.text.trim();
+    final lastName = lastNameController.text.trim();
+    final age = ageController.text.trim();
+    final birthday = birthdayController.text.trim();
+
+    // Validate form fields
+    if (firstName.isEmpty ||
+        lastName.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty ||
+        age.isEmpty ||
+        birthday.isEmpty) {
+      _showMessage(context, 'Please fill in all fields');
+      return;
+    }
 
     if (password != confirmPassword) {
       _showMessage(context, 'Passwords do not match');
@@ -187,13 +205,34 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     try {
-      // Add Firebase sign-up logic here, e.g., FirebaseAuth.createUserWithEmailAndPassword
-      _showMessage(context, 'Sign Up Successful');
-    } catch (e) {
-      _showMessage(context, 'Sign Up failed: ${e.toString()}');
+      // Firebase Authentication: Create user with email and password
+      final auth = FirebaseAuth.instance;
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Save user data to Firestore
+      final userId = userCredential.user?.uid;
+      if (userId != null) {
+        final usersCollection = FirebaseFirestore.instance.collection('users');
+        await usersCollection.doc(userId).set({
+          'firstName': firstName,
+          'lastName': lastName,
+          'email': email,
+          'age': int.parse(age), // Store age as integer
+          'birthday': birthday, // Store birthday as string or DateTime
+        });
+
+        // Navigate to the login page after successful sign-up
+        Navigator.pop(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      _showMessage(context, 'Sign Up failed: ${e.message}');
     }
   }
 
+  // Show messages to the user
   void _showMessage(BuildContext context, String message) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));

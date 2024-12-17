@@ -1,3 +1,4 @@
+// In ForecastPage.dart
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -17,37 +18,6 @@ class _ForecastPageState extends State<ForecastPage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _weatherController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
-
-  // Function to open the date picker
-  Future<void> _selectDate(BuildContext context) async {
-    // Show Date Picker
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-    );
-    if (picked != null) {
-      // Show Time Picker after Date Picker
-      final TimeOfDay? pickedTime = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-      );
-      if (pickedTime != null) {
-        // Combine the selected Date and Time
-        final DateTime selectedDateTime = DateTime(
-          picked.year,
-          picked.month,
-          picked.day,
-          pickedTime.hour,
-          pickedTime.minute,
-        );
-        // Update the TextController with the selected Date and Time
-        _dateController.text =
-            DateFormat('yyyy-MM-dd HH:mm').format(selectedDateTime);
-      }
-    }
-  }
 
   // Save function to add the forecast data to Firestore
   void _saveForecast() async {
@@ -104,7 +74,6 @@ class _ForecastPageState extends State<ForecastPage> {
                 },
                 variant:
                     TextFieldVariant.datePicker, // Use the datePicker variant
-                onTap: () => _selectDate(context), // Open Date and Time Picker
               ),
               const SizedBox(height: 20),
 
