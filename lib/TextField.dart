@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
-enum TextFieldVariant { normal, password, email }
+enum TextFieldVariant {
+  normal,
+  number,
+  password,
+  email,
+  confirmPassword,
+  birthday
+}
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
   final TextEditingController controller;
   final TextFieldVariant variant;
   final String? Function(String?)? validator;
+  final bool obscureText;
+  final IconButton? suffixIcon;
+  final AutovalidateMode autovalidateMode;
 
   const CustomTextField({
     super.key,
@@ -14,6 +24,9 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     this.variant = TextFieldVariant.normal,
     this.validator,
+    this.obscureText = false,
+    this.suffixIcon,
+    this.autovalidateMode = AutovalidateMode.disabled,
   });
 
   @override
@@ -27,6 +40,22 @@ class CustomTextField extends StatelessWidget {
           obscureText: false,
           keyboardType: TextInputType.text,
           validator: validator,
+          autovalidateMode: autovalidateMode,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          ),
+        );
+        break;
+      case TextFieldVariant.number:
+        textFormFieldVariant = TextFormField(
+          controller: controller,
+          obscureText: false,
+          keyboardType: TextInputType.number,
+          validator: validator,
+          autovalidateMode: autovalidateMode,
           decoration: InputDecoration(
             hintText: hintText,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -38,18 +67,25 @@ class CustomTextField extends StatelessWidget {
       case TextFieldVariant.password:
         textFormFieldVariant = TextFormField(
           controller: controller,
-          obscureText: true,
+          obscureText: obscureText,
           keyboardType: TextInputType.visiblePassword,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value == null || value == '') {
-              return 'Please enter your password';
-            }
-            if (value.length < 9) {
-              return 'Password must be at least 9 characters';
-            }
-            return null;
-          },
+          autovalidateMode: autovalidateMode,
+          validator: validator,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            suffixIcon: suffixIcon,
+          ),
+        );
+        break;
+      case TextFieldVariant.email:
+        textFormFieldVariant = TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.emailAddress,
+          autovalidateMode: autovalidateMode,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hintText,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -58,28 +94,38 @@ class CustomTextField extends StatelessWidget {
           ),
         );
         break;
-      case TextFieldVariant.email:
+      case TextFieldVariant.confirmPassword:
         textFormFieldVariant = TextFormField(
           controller: controller,
-          keyboardType: TextInputType.emailAddress,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value == null || value == '') {
-              return 'Please enter your email';
-            }
-            if (!value.contains('@')) {
-              return 'Invalid email';
-            }
-            return null;
-          },
+          obscureText: obscureText,
+          autovalidateMode: autovalidateMode,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hintText,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             contentPadding:
                 const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            suffixIcon: suffixIcon,
           ),
         );
+        break;
+      case TextFieldVariant.birthday:
+        textFormFieldVariant = TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.datetime,
+          validator: validator,
+          autovalidateMode: autovalidateMode,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            suffixIcon: suffixIcon,
+          ),
+        );
+        break;
     }
+
     return textFormFieldVariant;
   }
 }
