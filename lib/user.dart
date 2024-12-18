@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart'; // Firebase Auth
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firebase Firestore
 import 'appbar.dart';
 import 'navbar.dart';
+import 'editProfile.dart';
 
 class UserPage extends StatelessWidget {
   const UserPage({super.key});
