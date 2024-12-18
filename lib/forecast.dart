@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'appbar.dart';
-import 'navbar.dart';
 import 'textfield.dart';
 
 class ForecastPage extends StatefulWidget {
@@ -113,15 +112,6 @@ class _ForecastPageState extends State<ForecastPage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 1, // Add Page
-        onTap: (index) {
-          // Use Navigator.pop to return to the parent navigation logic
-          if (index != 1) {
-            Navigator.pop(context); // This ensures we go back to the parent
-          }
-        },
       ),
     );
   }

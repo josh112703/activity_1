@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'appbar.dart';
-import 'navbar.dart';
+
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -24,6 +24,20 @@ class _HistoryPageState extends State<HistoryPage> {
     final DateTime date = timestamp.toDate();
     return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} "
         "${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}";
+  }
+
+  // Function to delete a forecast entry
+  Future<void> _deleteForecast(String id) async {
+    try {
+      await FirebaseFirestore.instance.collection('forecast').doc(id).delete();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Entry deleted successfully.')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error deleting entry: $e')),
+      );
+    }
   }
 
   @override
@@ -57,6 +71,7 @@ class _HistoryPageState extends State<HistoryPage> {
             itemCount: forecasts.length,
             itemBuilder: (context, index) {
               final forecast = forecasts[index];
+              final id = forecast.id; // Document ID
               final date = _formatDate(forecast['date'] as Timestamp);
               final weather = forecast['weather'] ?? 'No data';
               final notes = forecast['notes'] ?? 'No notes';
@@ -70,18 +85,42 @@ class _HistoryPageState extends State<HistoryPage> {
                           fontSize: 16, fontWeight: FontWeight.bold)),
                   subtitle: Text('Date: $date\nNotes: $notes'),
                   isThreeLine: true,
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      // Confirm deletion
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Confirm Deletion'),
+                            content: const Text(
+                                'Are you sure you want to delete this entry?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(); // Close the dialog
+                                  _deleteForecast(id); // Delete the entry
+                                },
+                                child: const Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               );
             },
           );
-        },
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 2, // History Page
-        onTap: (index) {
-          if (index != 2) {
-            Navigator.pop(context); // Return to parent navigation
-          }
         },
       ),
     );
