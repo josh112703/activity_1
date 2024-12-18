@@ -161,14 +161,6 @@ class UserPage extends StatelessWidget {
               ],
             ),
           ),
-          bottomNavigationBar: CustomBottomNavigationBar(
-            currentIndex: 3, // User Page
-            onTap: (index) {
-              if (index != 3) {
-                Navigator.pop(context); // Return to the parent navigation
-              }
-            },
-          ),
         );
       },
     );

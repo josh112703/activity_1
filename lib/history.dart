@@ -39,8 +39,7 @@ class _HistoryPageState extends State<HistoryPage> {
         stream: _fetchForecasts(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return const Center(
-                child: Text('Error fetching weather history.'));
+            return const Center(child: Text('Error fetching weather history.'));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -49,8 +48,7 @@ class _HistoryPageState extends State<HistoryPage> {
           final forecasts = snapshot.data?.docs ?? [];
 
           if (forecasts.isEmpty) {
-            return const Center(
-                child: Text('No weather history available.'));
+            return const Center(child: Text('No weather history available.'));
           }
 
           return ListView.builder(
@@ -74,14 +72,6 @@ class _HistoryPageState extends State<HistoryPage> {
               );
             },
           );
-        },
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: 2, // History Page
-        onTap: (index) {
-          if (index != 2) {
-            Navigator.pop(context); // Return to parent navigation
-          }
         },
       ),
     );

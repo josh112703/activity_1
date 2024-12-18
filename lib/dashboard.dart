@@ -1,9 +1,8 @@
-import 'package:activity_1/history.dart';
 import 'package:flutter/material.dart';
 import 'navbar.dart';
 import 'appbar.dart';
 import 'login.dart';
-import 'forecast.dart'; // Import the CommentPage
+import 'forecast.dart';
 import 'history.dart';
 import 'user.dart';
 
@@ -17,39 +16,17 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int _currentIndex = 0;
 
+  final List<Widget> _pages = [
+    DashboardContentPage(), // Keep the Dashboard content as its own widget
+    const ForecastPage(),
+    const HistoryPage(),
+    const UserPage(),
+  ];
+
   void _onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
-
-    // Navigate to the CommentPage when the "Add" button is tapped
-    if (index == 1) {
-      // Assuming "Add" is the second tab (index 1)
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const ForecastPage()), // Navigate to the comment page
-      );
-    }
-    if (index == 2) {
-      // Assuming "Add" is the second tab (index 1)
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const HistoryPage()), // Navigate to the comment page
-      );
-    }
-    if (index == 3) {
-      // Assuming "Add" is the second tab (index 1)
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const UserPage()), // Navigate to the comment page
-      );
-    }
   }
 
   void _logout(BuildContext context) {
@@ -72,25 +49,35 @@ class _DashboardPageState extends State<DashboardPage> {
         logoPath: '../assets/images/parot_logo.png',
         onLogout: () => _logout(context),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Region V - Albay',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            _buildForecastCard('10 Day Projected Forecast'),
-            const SizedBox(height: 16),
-            _buildForecastCard('Annual Projected Forecast'),
-          ],
-        ),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
+      ),
+    );
+  }
+}
+
+class DashboardContentPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Region V - Albay',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          _buildForecastCard('10 Day Projected Forecast'),
+          const SizedBox(height: 16),
+          _buildForecastCard('Annual Projected Forecast'),
+        ],
       ),
     );
   }
