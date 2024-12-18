@@ -15,7 +15,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   int _currentIndex = 0;
-
+  
   final List<Widget> _pages = [
     DashboardContentPage(), // Keep the Dashboard content as its own widget
     const ForecastPage(),
@@ -64,20 +64,20 @@ class _DashboardPageState extends State<DashboardPage> {
 class DashboardContentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Padding(        
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Region V - Albay',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          _buildForecastCard('10 Day Projected Forecast'),
-          const SizedBox(height: 16),
-          _buildForecastCard('Annual Projected Forecast'),
-        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Region V - Albay',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            _buildForecastCard('10 Day Projected Forecast'),
+            const SizedBox(height: 16),
+            _buildForecastCard('Annual Projected Forecast'),
+          ],
       ),
     );
   }

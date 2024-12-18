@@ -58,10 +58,10 @@ class _BottomNavPageState extends State<BottomNavPage> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    DashboardPage(),
-    ForecastPage(),
-    HistoryPage(),
-    UserPage(),
+    const DashboardPage(),
+    const ForecastPage(),
+    const HistoryPage(),
+    const UserPage(),
   ];
 
   void _onItemTapped(int index) {
