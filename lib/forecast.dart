@@ -117,13 +117,12 @@ class _ForecastPageState extends State<ForecastPage> {
       bottomNavigationBar: CustomBottomNavigationBar(
         currentIndex: 1, // Add Page
         onTap: (index) {
-         // Use Navigator.pop to return to the parent navigation logic
+          // Use Navigator.pop to return to the parent navigation logic
           if (index != 1) {
-           Navigator.pop(context); // This ensures we go back to the parent
-    }
-  },
-),
-
+            Navigator.pop(context); // This ensures we go back to the parent
+          }
+        },
+      ),
     );
   }
 }

@@ -1,12 +1,11 @@
+import 'package:activity_1/history.dart';
+import 'package:activity_1/user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'login.dart'; // Your login page
 import 'navbar.dart';
 import 'dashboard.dart'; // Your home page
 import 'forecast.dart'; // Add page
-// import 'library.dart'; // Library page
-// import 'profile.dart'; // Profile page
-// import 'custom_bottom_navigation.dart'; // Custom bottom nav bar
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +36,13 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const LoginPage(), // Start with LoginPage
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/dashboard': (context) => const BottomNavPage(),
+        '/editProfile': (context) => const UserPage(),
+        '/reportProblem': (context) => const ForecastPage(),
+      },
     );
   }
 }
@@ -55,8 +60,8 @@ class _BottomNavPageState extends State<BottomNavPage> {
   final List<Widget> _pages = [
     DashboardPage(),
     ForecastPage(),
-    // LibraryPage(),
-    // ProfilePage(),
+    HistoryPage(),
+    UserPage(),
   ];
 
   void _onItemTapped(int index) {

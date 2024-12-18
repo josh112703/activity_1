@@ -27,11 +27,23 @@ class UserPage extends StatelessWidget {
       } else {
         return {
           'firstName': 'John',
-          'lastName': 'Doe'
+          'lastName': 'Doe',
         }; // Default if no data found
       }
     } else {
       throw Exception('No user is logged in');
+    }
+  }
+
+  // Function to handle user logout
+  Future<void> _logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut(); // Sign out from Firebase
+      Navigator.pushReplacementNamed(context, '/login'); // Navigate to login
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error logging out: $error')),
+      );
     }
   }
 
@@ -61,7 +73,7 @@ class UserPage extends StatelessWidget {
             title: 'User Profile',
             titleStyle: const TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
-            onLogout: () => Navigator.pushReplacementNamed(context, '/login'),
+            onLogout: () => _logout(context), // Call logout function here
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -139,10 +151,7 @@ class UserPage extends StatelessWidget {
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
                         ),
-                        onPressed: () {
-                          // Logout and navigate to login page
-                          Navigator.pushReplacementNamed(context, '/login');
-                        },
+                        onPressed: () => _logout(context), // Logout logic here
                         icon: const Icon(Icons.logout),
                         label: const Text('Logout'),
                       ),
